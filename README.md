@@ -1,4 +1,4 @@
-![Image of Sand](https://github.com/DanBoothDev/Sand/docs/img/sand.jpg)
+![Image of Sand](docs/sand.jpg)
 
 # Sand
 
