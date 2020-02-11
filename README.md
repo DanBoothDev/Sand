@@ -10,7 +10,7 @@ $(venv) pip install -r requirements.txt
 ```
 
 ## Running
-gunicorn app:app
+gunicorn 'app:test_app()'
 
 ## Testing
 pytest tests
