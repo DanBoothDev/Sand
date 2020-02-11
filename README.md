@@ -18,3 +18,7 @@ pytest tests
 ## Authors
 
 * **Daniel Booth** - [DanBoothDev](https://github.com/DanBoothDev)
+
+
+## Dependencies
+- [Gunicorn](https://pypi.org/project/gunicorn/) - WSGI HTTP Server for UNIX
