@@ -1,7 +1,8 @@
 from setuptools import setup, find_packages
 
 requires = [
-    'gunicorn'
+    'gunicorn',
+    'WebOb'
 ]
 
 

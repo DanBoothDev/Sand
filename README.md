@@ -22,3 +22,4 @@ pytest tests
 
 ## Dependencies
 - [Gunicorn](https://pypi.org/project/gunicorn/) - WSGI HTTP Server for UNIX
+- [WebOb](https://pypi.org/project/WebOb/) - requests and response helper
