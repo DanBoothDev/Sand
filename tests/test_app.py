@@ -1,15 +1,16 @@
 from sand.api import API
 
 
-def test_app():
+def app(environ, response):
     # initialize API
-    app = API()
+    sand_app = API()
 
     # add routes
-    setup_routes(app)
+    setup_routes(sand_app)
 
     # return app for gunicorn
-    return app
+    return sand_app(environ, response)
+
 
 def setup_routes(app):
     @app.route("/")
