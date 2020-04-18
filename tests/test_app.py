@@ -20,3 +20,8 @@ def setup_routes(app):
     @app.route("/about")
     def about(request, response):
         response.text = "About Sand - it's small"
+
+    @app.route("/dash")
+    class Dashboard:
+        def get(self, req, response):
+            response.text = "Dashboard Page"

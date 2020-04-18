@@ -1,3 +1,4 @@
+import inspect
 from webob import Request, Response
 from sand.response import error_response
 
@@ -28,6 +29,12 @@ class API:
 
         handler = self.get_route_handler(request.path)
         if handler is not None:
+            if inspect.isclass(handler):
+                # check to see if the class supports the requested method i.e. GET/POST
+                handler = getattr(handler(), request.method.lower(), None)
+                if handler is None:
+                    raise AttributeError("Unsupported request method", request.method)
+
             # update response with associated handler
             handler(request, response)
         else:
@@ -50,6 +57,7 @@ class API:
         Route decorator
         """
         assert path not in self.routes, "Route {} already exists.".format(path)
+
         def wrapper(handler):
             self.routes[path] = handler
             return handler
