@@ -16,7 +16,7 @@ gunicorn tests.test_app:app
 
 ## Testing
 ```
-pytest tests
+python setup.py test
 ```
 
 ## Authors
