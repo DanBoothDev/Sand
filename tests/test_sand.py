@@ -17,3 +17,19 @@ def test_route_basic(api):
     @api.route("/")
     def home(req, resp):
         resp.text = "Home"
+
+
+def test_route_duplicate(api):
+    """
+    Test to ensure we can't add duplicate routes.
+    :param api:
+    :return:
+    """
+    @api.route("/")
+    def home(req, resp):
+        resp.text = "Home"
+
+    with pytest.raises(AssertionError):
+        @api.route("/")
+        def home2(req, resp):
+            resp.text = "Home"
