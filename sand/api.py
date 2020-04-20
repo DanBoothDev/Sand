@@ -1,5 +1,7 @@
 import inspect
+from requests import Session as RequestsSession
 from webob import Request, Response
+from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 from sand.response import error_response
 
 
@@ -62,3 +64,15 @@ class API:
             self.routes[path] = handler
             return handler
         return wrapper
+
+    def test_session(self, base_url="http://localserver"):
+        """
+        Creates a session so we can use requests whilst testing.
+        Any URL that starts with base_url will be passed to the adapter
+        :param base_url: url to use as a local test server
+        :return: session with a mounted WSGI adapter
+        :rtype: RequestsSession
+        """
+        session = RequestsSession()
+        session.mount(prefix=base_url, adapter=RequestsWSGIAdapter(self))
+        return session
