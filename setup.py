@@ -4,7 +4,8 @@ install_requires = [
     'gunicorn',
     'WebOb',
     'requests',
-    'requests-wsgi-adapter'
+    'requests-wsgi-adapter',
+    'jinja2'
 ]
 
 test_requires = [

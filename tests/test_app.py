@@ -13,10 +13,6 @@ def app(environ, response):
 
 
 def setup_routes(app):
-    @app.route("/")
-    def home(request, response):
-        response.text = "Welcome home"
-
     @app.route("/about")
     def about(request, response):
         response.text = "About Sand - it's small"
@@ -25,3 +21,7 @@ def setup_routes(app):
     class Dashboard:
         def get(self, req, response):
             response.text = "Dashboard Page"
+
+    @app.route("/")
+    def home(req, resp):
+        resp.body = app.template("index.html", context={"name": "Sand", "title": "Small framework"}).encode()
