@@ -10,6 +10,7 @@ from sand.response import error_response
 class API:
     def __init__(self, templates_dir="templates"):
         self.routes = {}
+        self.exception_handler = None
         self.templates_env = Environment(loader=FileSystemLoader(path.abspath(templates_dir)))
 
     def __call__(self, environ, start_response):
@@ -31,20 +32,25 @@ class API:
         :return response    a formatted webob response
         """
         response = Response()
+        try:
+            handler = self.get_route_handler(request.path)
+            if handler is not None:
+                if inspect.isclass(handler):
+                    # check to see if the class supports the requested method i.e. GET/POST
+                    handler = getattr(handler(), request.method.lower(), None)
+                    if handler is None:
+                        raise AttributeError("Unsupported request method", request.method)
 
-        handler = self.get_route_handler(request.path)
-        if handler is not None:
-            if inspect.isclass(handler):
-                # check to see if the class supports the requested method i.e. GET/POST
-                handler = getattr(handler(), request.method.lower(), None)
-                if handler is None:
-                    raise AttributeError("Unsupported request method", request.method)
-
-            # update response with associated handler
-            handler(request, response)
-        else:
-            # unable to find handler - display error
-            error_response(response)
+                # update response with associated handler
+                handler(request, response)
+            else:
+                # unable to find handler - display error
+                error_response(response)
+        except Exception as e:
+            if self.exception_handler is not None:
+                self.exception_handler(request, response, e)
+            else:
+                raise e
         return response
 
     def get_route_handler(self, request_path):
@@ -94,3 +100,6 @@ class API:
             context = {}
 
         return self.templates_env.get_template(template_name).render(**context)
+
+    def add_exception_handler(self, exception_handler):
+        self.exception_handler = exception_handler

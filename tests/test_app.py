@@ -8,6 +8,9 @@ def app(environ, response):
     # add routes
     setup_routes(sand_app)
 
+    # add exception handler
+    sand_app.add_exception_handler(custom_exception_handler)
+
     # return app for gunicorn
     return sand_app(environ, response)
 
@@ -25,3 +28,10 @@ def setup_routes(app):
     @app.route("/")
     def home(req, resp):
         resp.body = app.template("index.html", context={"name": "Sand", "title": "Small framework"}).encode()
+
+    @app.route("/error")
+    def exception_throwing_handler(request, response):
+        raise AssertionError("Some error")
+
+def custom_exception_handler(request, response, exception_cls):
+    response.text = "Oops! Something went wrong."
