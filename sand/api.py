@@ -56,14 +56,19 @@ class API:
 
     def route(self, path):
         """
-        Route decorator
+        Route decorator to add a route
         """
-        assert path not in self.routes, "Route {} already exists.".format(path)
-
         def wrapper(handler):
-            self.routes[path] = handler
+            self.add_route(path, handler)
             return handler
         return wrapper
+
+    def add_route(self, path, handler):
+        """
+        Adds a route by supplying a path and handler manually
+        """
+        assert path not in self.routes, "Route {} already exists.".format(path)
+        self.routes[path] = handler
 
     def test_session(self, base_url="http://localserver"):
         """
