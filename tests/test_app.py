@@ -3,7 +3,7 @@ from sand.api import API
 
 def app(environ, response):
     # initialize API
-    sand_app = API()
+    sand_app = API('tests/templates', 'tests/static')
 
     # add routes
     setup_routes(sand_app)

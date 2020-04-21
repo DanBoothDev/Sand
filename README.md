@@ -27,3 +27,4 @@ python setup.py test
 ## Dependencies
 - [Gunicorn](https://pypi.org/project/gunicorn/) - WSGI HTTP Server for UNIX
 - [WebOb](https://pypi.org/project/WebOb/) - requests and response helper
+- [WhiteNoise](https://pypi.org/project/whitenoise) - static file serving
