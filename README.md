@@ -11,7 +11,7 @@ $(venv) pip install -r requirements.txt
 
 ## Running
 ```
-gunicorn tests.test_app:app
+gunicorn tests.test_app.test_app:app
 ```
 
 ## Testing

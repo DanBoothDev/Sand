@@ -5,6 +5,7 @@ from requests import Session as RequestsSession
 from webob import Request, Response
 from whitenoise import WhiteNoise
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
+from sand.middleware import Middleware
 from sand.response import error_response
 
 
@@ -15,15 +16,20 @@ class API:
         self.templates_env = Environment(loader=FileSystemLoader(path.abspath(templates_dir)))
         # initialize WhiteNoise to create static files
         self.whitenoise = WhiteNoise(self.wsgi_app, root=static_dir)
+        self.middleware = Middleware(self)
 
     def __call__(self, environ, start_response):
         """
-        WhiteNoise check if the path matches static_dir otherwise pass through to the original WSGI app
         :param environ          request info including CGI env vars
         :param start_response   used to begin the HTTP response
         :return WSGI compatible formatted response
         """
-        return self.whitenoise(environ, start_response)
+        path_info = environ["PATH_INFO"]
+        if path_info.startswith("/static"):
+            environ["PATH_INFO"] = path_info[len("/static"):]
+            return self.whitenoise(environ, start_response)
+
+        return self.middleware(environ, start_response)
 
     def wsgi_app(self, environ, start_response):
         """
@@ -36,7 +42,7 @@ class API:
         response = self._request_handler(request)
         return response(environ, start_response)        
 
-    def _request_handler(self, request):
+    def handle_request(self, request):
         """
         Request handler takes the inbound request and transforms 
         :param request      inbound request
@@ -114,3 +120,6 @@ class API:
 
     def add_exception_handler(self, exception_handler):
         self.exception_handler = exception_handler
+
+    def add_middleware(self, middleware_cls):
+        self.middleware.add(middleware_cls)
