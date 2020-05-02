@@ -1,19 +1,19 @@
 import inspect
 from os import path
-from jinja2 import Environment, FileSystemLoader
 from requests import Session as RequestsSession
 from webob import Request, Response
 from whitenoise import WhiteNoise
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 from sand.middleware import Middleware
 from sand.response import error_response
+from sand.template import get_environment
 
 
 class Sand:
     def __init__(self, templates_dir="templates", static_dir="static"):
         self.routes = {}
         self.exception_handler = None
-        self.templates_env = Environment(loader=FileSystemLoader(path.abspath(templates_dir)))
+        self.templates_env = get_environment(path.abspath(templates_dir))
         # initialize WhiteNoise to create static files
         self.whitenoise = WhiteNoise(self.wsgi_app, root=static_dir)
         self.middleware = Middleware(self)
