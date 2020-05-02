@@ -1,10 +1,10 @@
 import pytest
-from sand.api import API
+from sand import Sand
 
 
 @pytest.fixture
 def app():
-    return API()
+    return Sand()
 
 
 @pytest.fixture

@@ -9,7 +9,7 @@ from sand.middleware import Middleware
 from sand.response import error_response
 
 
-class API:
+class Sand:
     def __init__(self, templates_dir="templates", static_dir="static"):
         self.routes = {}
         self.exception_handler = None
