@@ -15,7 +15,14 @@ class Middleware:
 
     def add(self, middleware_cls):
         self.app = middleware_cls(self.app)
-    
+
+    def handle_request(self, req):
+        self.process_request(req)
+        # let the app create the response
+        response = self.app.handle_request(req)
+        self.process_response(req, response)
+        return response
+
     def process_request(self, req):
         # process the request in some way
         pass
@@ -23,10 +30,3 @@ class Middleware:
     def process_response(self, req, resp):
         # process the response in some way
         pass
-
-    def handle_request(self, request):
-        self.process_request(request)
-        # let the app create the response
-        response = self.app.handle_request(request)
-        self.process_response(request, response)
-        return response
