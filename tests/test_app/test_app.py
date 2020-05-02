@@ -37,6 +37,7 @@ def setup_routes(app):
     def exception_throwing_handler(req, resp):
         raise AssertionError("Some error")
 
+
 def custom_exception_handler(req, resp, exc_class):
     resp.text = "Oops! Something went wrong."
 

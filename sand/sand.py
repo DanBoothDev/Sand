@@ -83,21 +83,21 @@ class Sand:
             return self.routes.get(request_path)
         return None
 
-    def route(self, path):
+    def route(self, route_path):
         """
         Route decorator to add a route
         """
         def wrapper(handler):
-            self.add_route(path, handler)
+            self.add_route(route_path, handler)
             return handler
         return wrapper
 
-    def add_route(self, path, handler):
+    def add_route(self, route_path, handler):
         """
         Adds a route by supplying a path and handler manually
         """
-        assert path not in self.routes, "Route {} already exists.".format(path)
-        self.routes[path] = handler
+        assert route_path not in self.routes, "Route {} already exists.".format(route_path)
+        self.routes[route_path] = handler
 
     def test_session(self, base_url="http://localserver"):
         """

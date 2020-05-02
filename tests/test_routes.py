@@ -27,7 +27,7 @@ def test_route_manual(app, client):
 def test_route_duplicate(app):
     """
     Test to ensure we can't add duplicate routes.
-    :param api:
+    :param app:
     :return:
     """
     @app.route("/")
