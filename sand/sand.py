@@ -39,7 +39,7 @@ class Sand:
         :return WSGI compatible formatted response
         """
         request = Request(environ)
-        response = self._request_handler(request)
+        response = self.handle_request(request)
         return response(environ, start_response)        
 
     def handle_request(self, request):

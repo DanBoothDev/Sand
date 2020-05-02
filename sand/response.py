@@ -1,4 +1,4 @@
 
-def error_response(response):
-    response.status_code = 404
-    response.text = "Not found."
+def error_response(resp):
+    resp.status_code = 404
+    resp.text = "Not found."
