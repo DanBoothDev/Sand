@@ -14,8 +14,11 @@ class Sand:
         self.routes = {}
         self.exception_handler = None
         self.templates_env = get_environment(path.abspath(templates_dir))
+        self._static_path = '/static'
+        self._static_dir = path.abspath(static_dir)
         # initialize WhiteNoise to create static files
-        self.whitenoise = WhiteNoise(self.wsgi_app, root=static_dir)
+        self.whitenoise = WhiteNoise(self.wsgi_app, root=self._static_dir)
+        # add middlewate
         self.middleware = Middleware(self)
 
     def __call__(self, environ, start_response):
@@ -25,8 +28,8 @@ class Sand:
         :return WSGI compatible formatted response
         """
         path_info = environ["PATH_INFO"]
-        if path_info.startswith("/static"):
-            environ["PATH_INFO"] = path_info[len("/static"):]
+        if path_info.startswith(self._static_path):
+            environ["PATH_INFO"] = path_info[len(self._static_path):]
             return self.whitenoise(environ, start_response)
 
         return self.middleware(environ, start_response)
