@@ -30,27 +30,18 @@ python setup.py test
 ```
 
 ## Usage
-- [Basic App](basic)
+- [App](app)
 - [Adding Routes](routes)
 - [Templates](templates)
 - [Static Files](static-files)
 - [Exception Handlers](exceptions-handlers)
 - [Middleware](middleware)
 
-### Basic
-```python
-from sand import Sand
 
-app = Sand()
+### App
+For example apps see:
+- [Basic App](docs/examples/app_basic)
 
-@app.route("/")
-def home(req, resp):
-    resp.text = "Welcome home"
-
-@app.route("/about")
-def about(req, resp):
-    resp.text = "This is what it's about"
-```
 
 ### Routes
 ```python
