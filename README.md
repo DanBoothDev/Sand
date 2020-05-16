@@ -121,27 +121,29 @@ app = Sand(static_dir='path/to/static')
 from sand import Sand
 
 app = Sand()
-app.add_exception_handler(custom_exception_handler)
 
 def custom_exception_handler(req, resp, exc_class):
     resp.text = "Oops! Something went wrong."
 
+app.add_exception_handler(custom_exception_handler)
 ...
 ```
 
 ### Middleware
 ```python
 from sand import Sand
+from sand.middleware import Middleware
 
 app = Sand()
-app.add_middleware(LogMiddleware)
+
 
 class LogMiddleware(Middleware):
     def process_request(self, req):
-        print("Processing request", req.url)
+        print("RX: {} {} {} - {}".format(req.client_addr, req.method, req.path, req.user_agent))
 
     def process_response(self, req, resp):
-        print("Processing response", req.url)
+        print("TX: {} {} {} {} - {}".format(req.client_addr, req.method, req.path, resp.status, req.user_agent))
 
+app.add_middleware(LogMiddleware)
 ...
 ```

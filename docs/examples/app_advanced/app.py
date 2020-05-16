@@ -1,3 +1,4 @@
+from datetime import datetime
 from sand import Sand
 from sand.middleware import Middleware
 
@@ -15,7 +16,7 @@ def app(environ, response):
     # add middleware 
     sand_app.add_middleware(LogMiddleware)
 
-    # return app for gunicorn
+    # return WSGI compatible app
     return sand_app(environ, response)
 
 
@@ -31,7 +32,11 @@ def setup_routes(app):
 
     @app.route("/")
     def home(req, resp):
-        resp.body = app.template("index.html", context={"name": "Sand", "title": "Small framework"}).encode()
+        context = {
+            "name": "Sand",
+            "title": "Small framework"
+        }
+        resp.body = app.template("index.html", context).encode()
 
     @app.route("/error")
     def exception_throwing_handler(req, resp):
@@ -44,8 +49,10 @@ def custom_exception_handler(req, resp, exc_class):
 
 class LogMiddleware(Middleware):
     def process_request(self, req):
-        print("Processing request", req.url)
+        print("[{}] RX: {} {} {} - {}".format(self._get_utc_now(), req.client_addr, req.method, req.path, req.user_agent))
 
     def process_response(self, req, resp):
-        print("Processing response", req.url)
+        print("[{}] TX: {} {} {} {} - {}".format(self._get_utc_now(), req.client_addr, req.method, req.path, resp.status, req.user_agent))
 
+    def _get_utc_now(self):
+        return datetime.utcnow().isoformat()
