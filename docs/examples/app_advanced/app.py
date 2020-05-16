@@ -4,7 +4,7 @@ from sand.middleware import Middleware
 
 def app(environ, response):
     # initialize API
-    sand_app = Sand('tests/test_app/templates', 'tests/test_app/static')
+    sand_app = Sand('./templates', './static')
 
     # add routes
     setup_routes(sand_app)

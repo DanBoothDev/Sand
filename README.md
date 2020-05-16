@@ -41,6 +41,7 @@ python setup.py test
 ### App
 For example apps see:
 - [Basic App](docs/examples/app_basic)
+- [Advanced App](docs/examples/app_advanced)
 
 
 ### Routes
