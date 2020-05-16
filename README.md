@@ -31,6 +31,7 @@ python setup.py test
 
 ## Usage
 - [Basic App](Basic)
+- [routes](Adding Routes)
 
 ### Basic
 ```python
@@ -47,4 +48,21 @@ def about(req, resp):
     resp.text = "This is what it's about"
 ```
 
+### Routes
+```python
+from sand import Sand
 
+app = Sand()
+
+# using decorators
+@app.route("/")
+def home(req, resp):
+    resp.text = "Welcome home"
+
+
+# using parameters
+def about(req, resp):
+    resp.text = "This is what it's about"
+
+app.add_route("/about", about)
+```
