@@ -34,6 +34,7 @@ python setup.py test
 - [Adding Routes](routes)
 - [Templates](templates)
 - [Static Files](static-files)
+- [Exception Handlers](exceptions-handlers)
 
 ### Basic
 ```python
@@ -121,4 +122,16 @@ app = Sand(static_dir='path/to/static')
     <h1>The name of the framework is {{ name }}</h1>
 </body>
 </html>
+```
+### Exception Handlers
+```python
+from sand import Sand
+
+app = Sand()
+app.add_exception_handler(custom_exception_handler)
+
+def custom_exception_handler(req, resp, exc_class):
+    resp.text = "Oops! Something went wrong."
+
+...
 ```
