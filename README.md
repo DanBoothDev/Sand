@@ -33,6 +33,7 @@ python setup.py test
 - [Basic App](basic)
 - [Adding Routes](routes)
 - [Templates](templates)
+- [Static Files](static-files)
 
 ### Basic
 ```python
@@ -90,6 +91,31 @@ def home(req, resp):
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+</head>
+<body>
+    <h1>The name of the framework is {{ name }}</h1>
+</body>
+</html>
+```
+
+### Static Files
+Like templates, when initializing sand, the default static directory is `/static`. To use a different directory, use `static_dir`
+
+```python
+from sand import Sand
+
+app = Sand(static_dir='path/to/static')
+
+...
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link href="/static/main.css" type="text/css" rel="stylesheet">
 </head>
 <body>
     <h1>The name of the framework is {{ name }}</h1>
