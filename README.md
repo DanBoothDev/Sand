@@ -30,8 +30,9 @@ python setup.py test
 ```
 
 ## Usage
-- [Basic App](Basic)
-- [routes](Adding Routes)
+- [Basic App](basic)
+- [Adding Routes](routes)
+- [Templates](templates)
 
 ### Basic
 ```python
@@ -59,10 +60,39 @@ app = Sand()
 def home(req, resp):
     resp.text = "Welcome home"
 
-
 # using parameters
 def about(req, resp):
     resp.text = "This is what it's about"
 
 app.add_route("/about", about)
+```
+
+### Templates
+When initialising Sand, the default template directory is `/templates`. To use a different directory, use `templates_dir`
+
+```python
+from sand import Sand
+
+app = Sand(templates_dir='path/to/templates')
+
+@app.route("/")
+def home(req, resp):
+    context = {
+        "name": "Sand",
+        "title": "Home"
+    }
+    resp.body = app.template("index.html", context).encode()
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>The name of the framework is {{ name }}</h1>
+</body>
+</html>
 ```
