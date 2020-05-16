@@ -1,4 +1,4 @@
-![Image of Sand](docs/sand.jpg)
+![Image of Sand](docs/img/sand.jpg)
 
 # Sand
 
