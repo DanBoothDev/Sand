@@ -35,6 +35,7 @@ python setup.py test
 - [Templates](templates)
 - [Static Files](static-files)
 - [Exception Handlers](exceptions-handlers)
+- [Middleware](middleware)
 
 ### Basic
 ```python
@@ -132,6 +133,23 @@ app.add_exception_handler(custom_exception_handler)
 
 def custom_exception_handler(req, resp, exc_class):
     resp.text = "Oops! Something went wrong."
+
+...
+```
+
+### Middleware
+```python
+from sand import Sand
+
+app = Sand()
+app.add_middleware(LogMiddleware)
+
+class LogMiddleware(Middleware):
+    def process_request(self, req):
+        print("Processing request", req.url)
+
+    def process_response(self, req, resp):
+        print("Processing response", req.url)
 
 ...
 ```
